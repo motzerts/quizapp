@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Photosynthesis Quiz</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h1>Photosynthesis Quiz</h1>
+  <button id="loadQuizBtn">Load Questions</button>
+  <div id="quiz"></div>
+
+  <script>
+    async function loadQuestions() {
+      const res = await fetch("/questions");
+      const questions = await res.json();
+      const quizDiv = document.getElementById("quiz");
+      quizDiv.innerHTML = "";
+
+      // Render each question with an input for the user’s answer
+      questions.forEach(q => {
+        const questionElem = document.createElement("div");
+        questionElem.innerHTML = `
+          <p><strong>Question ${q.id}:</strong> ${q.question}</p>
+          <input type="text" id="answer_${q.id}" />
+          <button onclick="submitAnswer(${q.id})">Submit</button>
+          <p id="result_${q.id}"></p>
+        `;
+        quizDiv.appendChild(questionElem);
+      });
+    }
+
+    async function submitAnswer(id) {
+      const userAnswer = document.getElementById(`answer_${id}`).value;
+      const response = await fetch("/check_answer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, user_answer: userAnswer })
+      });
+
+      const result = await response.json();
+      const resultElem = document.getElementById(`result_${id}`);
+      if (result.result === "correct") {
+        resultElem.innerText = "✅ Correct!";
+        resultElem.style.color = "green";
+      } else if (result.result === "incorrect") {
+        resultElem.innerText = `❌ Incorrect. Correct answer: ${result.correct_answer}`;
+        resultElem.style.color = "red";
+      } else {
+        resultElem.innerText = result.error || "Error";
+        resultElem.style.color = "red";
+      }
+    }
+
+    document.getElementById("loadQuizBtn").addEventListener("click", loadQuestions);
+  </script>
+</body>
+</html>
