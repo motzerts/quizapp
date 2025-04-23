@@ -1,3 +1,9 @@
+# ─── Force CPU-only PyTorch wheels ──────────────────────────────────────────────
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.3.1+cpu          # <- CPU build: ~165 MB, no CUDA deps
+# torchvision==0.18.0+cpu # <- uncomment only if you use torchvision
+
+# ─── Your existing requirements ────────────────────────────────────────────────
 aiohappyeyeballs==2.4.4
 aiohttp==3.11.11
 aiohttp-cors==0.7.0
