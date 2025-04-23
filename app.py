@@ -1,5 +1,5 @@
+import os
 from flask import Flask, jsonify, request, render_template
-
 app = Flask(__name__)
 
 questions = [
@@ -62,4 +62,5 @@ def check_answer():
 
 # ---------- Local dev ----------
 if __name__ == "__main__":
-    app.run(debug=False)
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port, debug=False)
