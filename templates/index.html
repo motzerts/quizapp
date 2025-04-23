@@ -1,58 +1,85 @@
 <!DOCTYPE html>
-<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Photosynthesis Quiz</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilingual Tutor - Aprende Ciencia en Inglés</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/big_avatar.png') }}" type="image/png">
 </head>
 <body>
-  <h1>Photosynthesis Quiz</h1>
-  <button id="loadQuizBtn">Load Questions</button>
-  <div id="quiz"></div>
 
-  <script>
-    async function loadQuestions() {
-      const res = await fetch("/questions");
-      const questions = await res.json();
-      const quizDiv = document.getElementById("quiz");
-      quizDiv.innerHTML = "";
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo">Bilingual Tutor</div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#games">Games</a></li>
+                    <li><a href="#progress">Progress</a></li>
+                    <li><a href="#signout">Sign Out</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-      // Render each question with an input for the user’s answer
-      questions.forEach(q => {
-        const questionElem = document.createElement("div");
-        questionElem.innerHTML = `
-          <p><strong>Question ${q.id}:</strong> ${q.question}</p>
-          <input type="text" id="answer_${q.id}" />
-          <button onclick="submitAnswer(${q.id})">Submit</button>
-          <p id="result_${q.id}"></p>
-        `;
-        quizDiv.appendChild(questionElem);
-      });
-    }
+    <main class="site-main">
+        <div class="container">
 
-    async function submitAnswer(id) {
-      const userAnswer = document.getElementById(`answer_${id}`).value;
-      const response = await fetch("/check_answer", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, user_answer: userAnswer })
-      });
+            <section id="games" class="games-section">
+                <h2>Choose a Game</h2>
+                <div class="game-cards-container">
 
-      const result = await response.json();
-      const resultElem = document.getElementById(`result_${id}`);
-      if (result.result === "correct") {
-        resultElem.innerText = "✅ Correct!";
-        resultElem.style.color = "green";
-      } else if (result.result === "incorrect") {
-        resultElem.innerText = `❌ Incorrect. Correct answer: ${result.correct_answer}`;
-        resultElem.style.color = "red";
-      } else {
-        resultElem.innerText = result.error || "Error";
-        resultElem.style.color = "red";
-      }
-    }
+                    <article class="game-card">
+                        <img src="{{ url_for('static', filename='images/quiz_icon.png') }}" alt="Quiz icon" class="card-icon">
+                        <h3 class="card-title">Quiz</h3>
+                        <p class="card-description">
+                            Answer science questions.<br>
+                            Responde preguntas de ciencia.
+                        </p>
+                        <a href="{{ url_for('quiz') }}" class="play-button" aria-label="Play Quiz Game">Play</a>
+                    </article>
 
-    document.getElementById("loadQuizBtn").addEventListener("click", loadQuestions);
-  </script>
+                    <article class="game-card">
+                        <img src="{{ url_for('static', filename='images/vocab_icon.png') }}" alt="Vocabulary icon" class="card-icon">
+                        <h3 class="card-title">Vocabulary</h3>
+                        <p class="card-description">
+                            Learn English words.<br>
+                            Aprende palabras en inglés.
+                        </p>
+                        <a href="{{ url_for('vocabulary') }}" class="play-button" aria-label="Play Vocabulary Game">Play</a>
+                    </article>
+
+                    <article class="game-card">
+                        <img src="{{ url_for('static', filename='images/history_icon.png') }}" alt="Ancient History icon" class="card-icon">
+                        <h3 class="card-title">Ancient History</h3>
+                        <p class="card-description">
+                            Quiz: Romans, Greeks & more.<br>
+                    <a href="{{ url_for('ancient_history_quiz') }}" class="play-button" aria-label="Play Ancient History Quiz">Play</a>
+                    </article>
+                     <article class="game-card">
+                        <img src="{{ url_for('static', filename='images/progress_icon.png') }}" alt="Track Progress icon" class="card-icon">
+                        <h3 class="card-title">Track Progress</h3>
+                        <p class="card-description">
+                            View your progress.<br>
+                            Ve tu progreso.
+                        </p>
+                        <a href="{{ url_for('progress') }}" class="view-button" aria-label="View Progress">View</a>
+                    </article>
+                </div>
+            </section>
+        </div> </main>
+
+    <footer class="site-footer">
+        <div class="container footer-stats">
+            <p>Weekly average: <span id="weekly-avg">3</span> hours</p>
+            <p>Unique users: <span id="unique-users">346</span></p>
+        </div>
+        <div class="container footer-info">
+             <p>&copy; 2025 Bilingual Tutor. All rights reserved.</p>
+             </div>
+    </footer>
+
+    <script src="script.js"></script>
+
 </body>
 </html>

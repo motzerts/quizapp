@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Progress - Bilingual Tutor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* Basic container styling */
+        .main-container { /* Use a different class name to avoid conflicts */
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #f9f9f9; /* Lighter background for contrast */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .progress-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #fff;
+             border-radius: 8px;
+        }
+        .progress-section h2 {
+            color: #483D8B; /* Dark Purple */
+            margin-bottom: 15px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+         ul {
+            list-style: none;
+            padding-left: 0;
+        }
+         li {
+             background-color: #f0f0f0;
+             padding: 10px 15px;
+             margin-bottom: 8px;
+             border-radius: 4px;
+             font-size: 0.95em;
+             display: flex;
+             justify-content: space-between;
+             flex-wrap: wrap; /* Wrap on small screens */
+         }
+         li span {
+             color: #555;
+             font-size: 0.9em;
+         }
+         .no-data {
+             color: #777;
+             font-style: italic;
+         }
+         .back-link {
+             display: inline-block;
+             margin-top: 20px;
+             color: #483D8B;
+             text-decoration: none;
+             font-weight: bold;
+         }
+          .back-link:hover {
+              text-decoration: underline;
+          }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+         <div class="container header-container">
+             <div class="logo"><a href="{{ url_for('home') }}" style="color: white; text-decoration: none;">Bilingual Tutor</a></div>
+             </div>
+     </header>
+
+     <main class="main-container">
+        <h1>Your Progress / Tu Progreso</h1>
+
+        <div class="progress-section">
+            <h2>Quiz History / Historial de Cuestionarios</h2>
+            <ul id="quiz-history-list">
+                <li class="no-data">Loading history... / Cargando historial...</li>
+            </ul>
+        </div>
+
+        <div class="progress-section">
+            <h2>Vocabulary History / Historial de Vocabulario</h2>
+            <ul id="vocabulary-history-list">
+                <li class="no-data">Loading history... / Cargando historial...</li>
+            </ul>
+        </div>
+
+        <a href="{{ url_for('home') }}" class="back-link">&larr; Back to Home / Volver al inicio</a>
+
+     </main>
+
+     <script src="{{ url_for('static', filename='js/progress.js') }}"></script>
+</body>
+</html>

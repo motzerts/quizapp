@@ -1,0 +1,329 @@
+/* style.css - Styles for Bilingual Tutor Website */
+
+/* -------------------
+   * General Reset & Defaults
+   * ------------------- */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Import Google Font (Optional - Add corresponding <link> in HTML <head> if you prefer) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif; /* Use Poppins, fallback to generic sans-serif */
+    background-color: #483D8B; /* Dark Purple */
+    color: #333; /* Default text color for contrast on light backgrounds */
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure footer stays at bottom */
+}
+
+main {
+    flex-grow: 1; /* Allow main content to fill available space */
+}
+
+/* -------------------
+   * Reusable Container
+   * ------------------- */
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto; /* Center the content */
+    padding: 0 20px; /* Add horizontal padding */
+}
+
+/* -------------------
+   * Header & Navigation
+   * ------------------- */
+
+.site-header {
+    background-color: #483D8B; /* Dark Purple */
+    color: #FFFFFF; /* White */
+    padding: 15px 0;
+    border-bottom: 1px solid #6a5acd; /* Slightly lighter purple border */
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px; /* Spacing between nav items */
+}
+
+.main-nav a {
+    color: #FFFFFF; /* White */
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 20px; /* Rounded corners */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.main-nav a:hover {
+    background-color: #6a5acd; /* Lighter purple on hover */
+}
+
+.main-nav a.active,
+.main-nav a[href="#signout"] { /* Style "Home" and "Sign Out" like the yellow button */
+    background-color: #FFD700; /* Yellow */
+    color: #483D8B; /* Dark Purple text */
+    font-weight: 600;
+}
+
+.main-nav a[href="#signout"]:hover {
+     background-color: #ffec80; /* Lighter yellow on hover */
+}
+
+/* -------------------
+   * Main Content Sections
+   * ------------------- */
+
+.site-main .container {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+section {
+    margin-bottom: 40px; /* Space between sections */
+    padding: 30px;
+    border-radius: 15px; /* Rounded corners for sections */
+}
+
+/* -------------------
+   * Science Assistant Section
+   * ------------------- */
+
+.assistant-section {
+    background-color: #E6E6FA; /* Light Lavender */
+    display: flex;
+    align-items: center;
+    gap: 30px; /* Space between text content and image */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.assistant-content {
+    flex: 1; /* Allow text content to take available space */
+    min-width: 250px; /* Prevent excessive shrinking */
+}
+
+.assistant-section h2 {
+    color: #483D8B; /* Dark Purple */
+    font-size: 2em;
+    margin-bottom: 15px;
+}
+
+.assistant-prompt p {
+    font-size: 1.1em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.assistant-visual {
+    flex-basis: 200px; /* Suggest a base size for the image container */
+    text-align: center;
+}
+
+.assistant-visual img {
+    max-width: 100%;
+    height: auto;
+    max-height: 180px; /* Limit image height */
+}
+
+/* -------------------
+   * Buttons
+   * ------------------- */
+
+.btn { /* Base button style */
+    display: inline-block;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px; /* Rounded corners */
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    text-decoration: none; /* For potential <a> tags styled as buttons */
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.btn-generate {
+    background-color: #4CAF50; /* Green */
+    color: #FFFFFF; /* White text */
+}
+
+.btn-generate:hover {
+    background-color: #45a049; /* Darker green */
+}
+
+/* -------------------
+   * Games Section
+   * ------------------- */
+
+.games-section {
+    background-color: #FFD700; /* Yellow */
+}
+
+.games-section h2 {
+    color: #483D8B; /* Dark Purple */
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 30px;
+}
+
+.game-cards-container {
+    display: grid;
+    /* Create 4 equal columns, but allow wrapping if they don't fit */
+    /* Min width 180px, max 1fr (take equal space) */
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 25px; /* Spacing between cards */
+}
+
+.game-card {
+    background-color: #FFFFFF; /* White */
+    padding: 25px;
+    border-radius: 10px; /* Rounded corners */
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Updated icon size */
+.card-icon {
+    width: 150px;
+    height: auto; /* preserves aspect ratio */
+    margin-bottom: 15px;
+}
+.card-title {
+    color: #483D8B; /* Dark Purple */
+    font-size: 1.3em;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.card-description {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 15px;
+    flex-grow: 1; /* Allow description to push button down if needed */
+}
+
+/* Style the play/view links inside cards (optional, could be buttons too) */
+.game-card a.play-button,
+.game-card a.view-button {
+    display: inline-block; /* Or block if you want full width */
+    margin-top: auto; /* Pushes link to bottom if card heights vary */
+    padding: 5px 10px;
+    font-size: 0.9em;
+    color: #483D8B;
+    text-decoration: none;
+    font-weight: 600;
+    /* Optional: add border or background for button look */
+    /* border: 1px solid #483D8B; */
+    /* border-radius: 15px; */
+}
+
+.game-card a:hover {
+    text-decoration: underline;
+}
+
+
+/* -------------------
+   * Footer
+   * ------------------- */
+
+.site-footer {
+    background-color: #483D8B; /* Dark Purple */
+    color: #FFFFFF; /* White */
+    padding: 20px 0;
+    margin-top: auto; /* Pushes footer to bottom */
+    font-size: 0.9em;
+}
+
+.footer-stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* Space between stats */
+    margin-bottom: 10px; /* Space between stats and copyright */
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+.footer-info {
+    text-align: center;
+    opacity: 0.8; /* Slightly faded copyright */
+}
+
+
+/* -------------------
+   * Media Queries (Basic Example for Responsiveness)
+   * ------------------- */
+
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .main-nav ul {
+        justify-content: center;
+        flex-wrap: wrap; /* Allow nav items to wrap */
+    }
+
+    .assistant-section {
+        flex-direction: column; /* Stack content and image vertically */
+        text-align: center;
+    }
+
+    .assistant-visual {
+        margin-top: 20px;
+    }
+
+    /* Game cards might already wrap nicely due to auto-fit,
+       but you could force 2 columns earlier if needed */
+    /* .game-cards-container {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    } */
+}
+
+@media (max-width: 480px) {
+     /* Further adjustments for very small screens */
+    .logo {
+        font-size: 1.5em;
+    }
+    .assistant-section h2, .games-section h2 {
+        font-size: 1.7em;
+    }
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+    /* Ensure cards take full width or nearly */
+     .game-cards-container {
+        grid-template-columns: 1fr; /* Stack cards vertically */
+    }
+}

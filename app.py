@@ -19,6 +19,21 @@ questions = [
         "answer": "Producen oxígeno y glucosa como resultado principal."
     }
 ]
+@app.route('/quiz')
+def quiz():
+    """Serves the Quiz game page."""
+    return render_template('quiz.html', game_type='quiz') # Pass game_type
+
+@app.route('/ancient-history-quiz')
+def ancient_history_quiz():
+    """Serves the Ancient History Quiz game page."""
+    # Pass the game_type matching the data-attribute in the HTML
+    return render_template('ancient_history_quiz.html', game_type='ancient_history')
+
+@app.route('/vocabulary')
+def vocabulary():
+    """Serves the Vocabulary game page."""
+    return render_template('vocabulary.html', game_type='vocabulary') # Pass game_type
 
 @app.route("/")
 def home():
@@ -44,5 +59,11 @@ def check_answer():
     else:
         return jsonify({"result": "incorrect", "correct_answer": questions[question_id - 1]["answer"]})
 
+@app.route('/progress')
+def progress():
+    """Serves the progress tracking page."""
+    # Assuming your homepage function is named 'home'
+    # Adjust if necessary for url_for in progress.html's header/back link
+    return render_template('progress.html')
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001)

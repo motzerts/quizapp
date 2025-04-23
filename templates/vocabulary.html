@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Game - Bilingual Tutor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* Basic game container styling (can reuse or customize) */
+        .game-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+         .options button { /* Reusing quiz button style */
+            display: block;
+            width: 80%;
+            margin: 10px auto;
+            padding: 12px;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .options button:hover {
+            background-color: #ddd;
+        }
+         .feedback {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .feedback.correct {
+            color: green;
+        }
+        .feedback.incorrect {
+            color: red;
+        }
+         #next-btn, #restart-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+        #english-word {
+             font-size: 1.5em;
+             font-weight: bold;
+             margin-bottom: 20px;
+             color: #483D8B; /* Dark Purple */
+         }
+    </style>
+</head>
+<body>
+     <header class="site-header">
+         <div class="container header-container">
+             <div class="logo"><a href="{{ url_for('home') }}" style="color: white; text-decoration: none;">Bilingual Tutor</a></div>
+         </div>
+     </header>
+
+    <main>
+        <div class="game-container" id="vocabulary-container" data-game-type="{{ game_type }}"> <h1>Vocabulary Game</h1>
+            <p>Learn English words / Aprende palabras en inglés</p>
+            <hr>
+
+            <div id="word-area">
+                <p>What is the Spanish translation for:</p>
+                <div id="english-word">Loading word...</div>
+                <div id="options-area" class="options">
+                    </div>
+            </div>
+
+            <div id="feedback-area" class="feedback"></div>
+            <div id="score-area">Score: <span id="score">0</span></div>
+
+            <button id="next-btn" style="display: none;">Next Word</button>
+            <button id="restart-btn" style="display: none;">Play Again?</button>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+</body>
+</html>
