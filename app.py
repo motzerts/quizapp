@@ -66,4 +66,5 @@ def progress():
     # Adjust if necessary for url_for in progress.html's header/back link
     return render_template('progress.html')
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5001)
+    # local testing only
+    app.run(port=5001, debug=False)
