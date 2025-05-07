@@ -25,6 +25,13 @@ questions = [
 def home():
     return render_template("index.html")
 
+@app.route('/medieval-history-quiz')
+def medieval_history_quiz():
+    """Serves the Medieval History Quiz game page."""
+    # The 'game_type' passed here must match the data-game-type in the HTML
+    # and the prefix of your JSON data file (medieval_history_questions.json)
+    return render_template('medieval_history_quiz.html', game_type='medieval_history')
+
 @app.route("/quiz")
 def quiz():
     return render_template("quiz.html", game_type="quiz")

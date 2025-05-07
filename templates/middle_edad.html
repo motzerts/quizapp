@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz de la Edad Media / Medieval Quiz</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* match your existing styles */
+    .game-container { max-width:700px; margin:40px auto; padding:30px; background:#fff; border-radius:10px; box-shadow:0 4px 8px rgba(0,0,0,0.1); text-align:center; }
+    #question-text { text-align:left; margin-bottom:20px; line-height:1.5; }
+    .options button { display:block; width:90%; margin:10px auto; padding:12px; background:#eee; border:1px solid #ccc; border-radius:5px; cursor:pointer; font-size:1em; text-align:left; line-height:1.4; }
+    .options button:hover { background:#ddd; }
+    .feedback { margin-top:15px; font-weight:bold; }
+    .feedback.correct { color:green; }
+    .feedback.incorrect { color:red; }
+    #next-btn, #restart-btn { margin-top:20px; padding:10px 20px; font-size:1em; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-container">
+      <div class="logo">
+        <a href="/" style="color:white; text-decoration:none;">Bilingual Tutor</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="game-container" id="medieval-quiz-container" data-game-type="medieval_history">
+      <h1>Quiz de la Edad Media / Medieval Quiz</h1>
+      <p>¿Qué personajes destacaron en la Edad Media? / Who stood out in the Middle Ages?</p>
+      <hr />
+
+      <div id="question-area">
+        <h2 id="question-text">Cargando pregunta… / Loading question…</h2>
+        <div id="options-area" class="options"></div>
+      </div>
+
+      <div id="feedback-area" class="feedback"></div>
+      <div id="score-area">Puntuación: <span id="score">0</span> / Score: <span id="score">0</span></div>
+
+      <button id="next-btn" style="display:none;">Siguiente Pregunta / Next Question</button>
+      <button id="restart-btn" style="display:none;">¿Jugar de nuevo? / Play Again?</button>
+    </div>
+  </main>
+
+  <script>
+    // --- quiz data ---
+    const quizQuestions = [
+      {
+        q: "1. ¿A qué reino pertenecía Jaime I el Conquistador? / Jaime I the Conqueror ruled which kingdom?",
+        options: [
+          "a) Castilla-León / Castile-León",
+          "b) Aragón / Aragon",
+          "c) Navarra / Navarre",
+          "d) León / León"
+        ],
+        answer: 1
+      },
+      {
+        q: "2. Alfonso X el Sabio fundó ¿qué institución en Toledo? / Alfonso X 'the Wise' founded which school in Toledo?",
+        options: [
+          "a) La Escuela de Traductores / School of Translators",
+          "b) La Universidad / University",
+          "c) La Biblioteca Real / Royal Library",
+          "d) La Academia de Letras / Academy of Letters"
+        ],
+        answer: 0
+      },
+      {
+        q: "3. Leonor López de Córdoba escribió una de las primeras ¿qué género en castellano? / Leonor López de Córdoba wrote one of the first what in Castilian?",
+        options: [
+          "a) Autobiografías / Autobiographies",
+          "b) Novelas / Novels",
+          "c) Crónicas / Chronicles",
+          "d) Poesías / Poems"
+        ],
+        answer: 0
+      },
+      {
+        q: "4. Abderramán III fue califa de Córdoba en el siglo… / Abd al-Rahman III was Caliph of Córdoba in the… century?",
+        options: [
+          "a) VIII / 8th",
+          "b) IX / 9th",
+          "c) X / 10th",
+          "d) XI / 11th"
+        ],
+        answer: 2
+      },
+      {
+        q: "5. Rodrigo Díaz de Vivar, ‘El Cid’, participó en luchas entre los reinos de… / The Cid fought between the kingdoms of…",
+        options: [
+          "a) Castilla y León / Castile and León",
+          "b) Aragón y Navarra / Aragon and Navarre",
+          "c) Granada y Sevilla / Granada and Seville",
+          "d) León y Asturias / León and Asturias"
+        ],
+        answer: 0
+      },
+      {
+        q: "6. ¿Quién fue llamada “la Temeraria”? / Who was nicknamed “the Reckless”?",
+        options: [
+          "a) Leonor de Córdoba / Eleanor of Córdoba",
+          "b) Urraca I de León / Urraca I of León",
+          "c) Isabel I de Castilla / Isabella I of Castile",
+          "d) Juana la Loca / Joanna the Mad"
+        ],
+        answer: 1
+      },
+      {
+        q: "7. Isabel I de Castilla y Fernando II de Aragón son conocidos como… / Isabella I and Ferdinand II are known as…",
+        options: [
+          "a) Los Reyes Católicos / The Catholic Monarchs",
+          "b) Los Reyes Cristianos / The Christian Monarchs",
+          "c) Los Reyes de España / The Monarchs of Spain",
+          "d) Los Reyes Unidos / The United Monarchs"
+        ],
+        answer: 0
+      },
+      {
+        q: "8. Aixa Bint Ahmed vivió en… / Aixa Bint Ahmed lived in…",
+        options: [
+          "a) al-Ándalus / al-Andalus",
+          "b) el Reino Franco / the Frankish Kingdom",
+          "c) el Califato Otomano / the Ottoman Caliphate",
+          "d) el Sacro Imperio / the Holy Roman Empire"
+        ],
+        answer: 0
+      },
+      {
+        q: "9. ¿Quién rompió los lazos con Bagdad y proclamó al-Ándalus independiente? / Who broke ties with Baghdad and made al-Andalus independent?",
+        options: [
+          "a) Almanzor",
+          "b) Abderramán III",
+          "c) Yusuf al-Mu’taman",
+          "d) Al-Hakam II"
+        ],
+        answer: 1
+      },
+      {
+        q: "10. El matrimonio de Isabel y Fernando culminó la reconquista en… / Their marriage completed the Reconquista in…",
+        options: [
+          "a) 1492",
+          "b) 1485",
+          "c) 1479",
+          "d) 1504"
+        ],
+        answer: 0
+      }
+    ];
+
+    // --- quiz logic (very similar to your game.js) ---
+    const questionText = document.getElementById('question-text');
+    const optionsArea   = document.getElementById('options-area');
+    const feedbackArea  = document.getElementById('feedback-area');
+    const scoreSpan     = document.querySelectorAll('#score')[0];
+    const nextBtn       = document.getElementById('next-btn');
+    const restartBtn    = document.getElementById('restart-btn');
+
+    let current = 0, score = 0;
+
+    function showQuestion() {
+      const q = quizQuestions[current];
+      questionText.innerText = q.q;
+      optionsArea.innerHTML = '';
+      feedbackArea.innerText = '';
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.innerText = opt;
+        btn.onclick = () => selectAnswer(i);
+        optionsArea.appendChild(btn);
+      });
+      nextBtn.style.display = 'none';
+    }
+
+    function selectAnswer(index) {
+      const q = quizQuestions[current];
+      if (index === q.answer) {
+        feedbackArea.innerText = '✔ Correcto / Correct!';
+        feedbackArea.className = 'feedback correct';
+        score++;
+      } else {
+        feedbackArea.innerText = `✖ Incorrecto / Incorrect – La respuesta era “${q.options[q.answer]}”`;
+        feedbackArea.className = 'feedback incorrect';
+      }
+      scoreSpan.innerText = score;
+      nextBtn.style.display = 'inline-block';
+      Array.from(optionsArea.children).forEach(b=>b.disabled = true);
+    }
+
+    nextBtn.onclick = () => {
+      current++;
+      if (current < quizQuestions.length) {
+        showQuestion();
+      } else {
+        finishQuiz();
+      }
+    };
+
+    restartBtn.onclick = () => {
+      current = 0;
+      score = 0;
+      scoreSpan.innerText = 0;
+      restartBtn.style.display = 'none';
+      showQuestion();
+    };
+
+    function finishQuiz() {
+      questionText.innerText = '¡Quiz terminado! / Quiz complete!';
+      optionsArea.innerHTML = '';
+      feedbackArea.innerText = `Puntuación final: ${score}/${quizQuestions.length} / Final score: ${score}/${quizQuestions.length}`;
+      nextBtn.style.display = 'none';
+      restartBtn.style.display = 'inline-block';
+    }
+
+    // initialize
+    showQuestion();
+  </script>
+</body>
+</html>

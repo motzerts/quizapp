@@ -56,6 +56,15 @@
                             Quiz: Romans, Greeks & more.<br>
                     <a href="{{ url_for('ancient_history_quiz') }}" class="play-button" aria-label="Play Ancient History Quiz">Play</a>
                     </article>
+                    <article class="game-card">
+                        <img src="{{ url_for('static', filename='images/history-icon.png') }}" alt="Medieval History icon" class="card-icon">
+                        <h3 class="card-title">Medieval History Quiz</h3>
+                        <p class="card-description">
+                            Quiz de la Edad Media.<br>
+                            Test your knowledge of the Middle Ages.
+                        </p>
+                        <a href="{{ url_for('medieval_history_quiz') }}" class="play-button" aria-label="Play Medieval History Quiz">Play</a>
+                    </article>
                      <article class="game-card">
                         <img src="{{ url_for('static', filename='images/progress_icon.png') }}" alt="Track Progress icon" class="card-icon">
                         <h3 class="card-title">Track Progress</h3>
