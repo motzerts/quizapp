@@ -104,7 +104,7 @@ section {
 }
 
 /* -------------------
-   * Science Assistant Section
+   * Science Assistant Section (If you re-add it)
    * ------------------- */
 
 .assistant-section {
@@ -190,10 +190,9 @@ section {
 
 .game-cards-container {
     display: grid;
-    /* Create 4 equal columns, but allow wrapping if they don't fit */
-    /* Min width 180px, max 1fr (take equal space) */
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 25px; /* Spacing between cards */
+    /* justify-content: center; /* Uncomment if you want cards to center if they don't fill the row */
 }
 
 .game-card {
@@ -203,9 +202,9 @@ section {
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: flex; /* Make card a flex container */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items like icon and title horizontally */
 }
 
 .game-card:hover {
@@ -213,12 +212,12 @@ section {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Updated icon size */
 .card-icon {
-    width: 150px;
-    height: auto; /* preserves aspect ratio */
+    max-width: 60px; /* Control icon size */
+    height: auto;
     margin-bottom: 15px;
 }
+
 .card-title {
     color: #483D8B; /* Dark Purple */
     font-size: 1.3em;
@@ -229,27 +228,33 @@ section {
 .card-description {
     font-size: 0.9em;
     color: #555;
-    margin-bottom: 15px;
-    flex-grow: 1; /* Allow description to push button down if needed */
+    margin-bottom: 15px; /* Space between description and button */
+    flex-grow: 1; /* Allow description to take available space, pushing button down */
+    width: 100%; /* Ensure description takes full width for text-align if needed */
 }
 
-/* Style the play/view links inside cards (optional, could be buttons too) */
+/* Style the play/view links inside cards */
 .game-card a.play-button,
 .game-card a.view-button {
-    display: inline-block; /* Or block if you want full width */
-    margin-top: auto; /* Pushes link to bottom if card heights vary */
-    padding: 5px 10px;
+    display: inline-block;
+    padding: 5px 10px; /* Reduced padding slightly */
     font-size: 0.9em;
     color: #483D8B;
     text-decoration: none;
     font-weight: 600;
-    /* Optional: add border or background for button look */
-    /* border: 1px solid #483D8B; */
-    /* border-radius: 15px; */
+    border: 1px solid #483D8B; /* Added a border to make it more button-like */
+    border-radius: 15px; /* Rounded corners for the button */
+    background-color: #f0f0f0; /* Light background for button */
+    transition: background-color 0.2s ease, color 0.2s ease;
+    /* *** THIS IS THE KEY FIX *** */
+    margin-top: auto; /* Pushes button to the bottom of the flex container (.game-card) */
 }
 
-.game-card a:hover {
-    text-decoration: underline;
+.game-card a.play-button:hover,
+.game-card a.view-button:hover {
+    background-color: #483D8B; /* Dark purple background on hover */
+    color: #FFFFFF; /* White text on hover */
+    text-decoration: none; /* Remove underline on hover as it's a button */
 }
 
 
@@ -294,20 +299,14 @@ section {
         flex-wrap: wrap; /* Allow nav items to wrap */
     }
 
-    .assistant-section {
+    .assistant-section { /* If you re-add it */
         flex-direction: column; /* Stack content and image vertically */
         text-align: center;
     }
 
-    .assistant-visual {
+    .assistant-visual { /* If you re-add it */
         margin-top: 20px;
     }
-
-    /* Game cards might already wrap nicely due to auto-fit,
-       but you could force 2 columns earlier if needed */
-    /* .game-cards-container {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    } */
 }
 
 @media (max-width: 480px) {
@@ -315,15 +314,140 @@ section {
     .logo {
         font-size: 1.5em;
     }
-    .assistant-section h2, .games-section h2 {
+    .assistant-section h2, .games-section h2 { /* If you re-add assistant */
         font-size: 1.7em;
     }
     .btn {
         padding: 10px 20px;
         font-size: 0.9em;
     }
-    /* Ensure cards take full width or nearly */
      .game-cards-container {
         grid-template-columns: 1fr; /* Stack cards vertically */
     }
+}
+
+/* Styles for Quiz/Vocabulary Game Pages (from quiz.html, vocabulary.html, etc.) */
+/* You might want to consolidate these if they are identical */
+.game-container { /* This class is used in your quiz/vocab HTML */
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+}
+.game-container #question-text, /* Target specifically within game-container */
+.game-container #english-word {  /* Target specifically within game-container */
+    text-align: left;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    font-size: 1.2em; /* Make question text a bit larger */
+    color: #333;
+}
+.game-container #english-word { /* Specific style for vocab game word */
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #483D8B; /* Dark Purple */
+}
+
+.game-container .options button { /* Target specifically within game-container */
+    display: block;
+    width: 90%;
+    margin: 10px auto;
+    padding: 12px;
+    background-color: #f0f0f0; /* Lighter than #eee for more contrast */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    text-align: left;
+    line-height: 1.4;
+    color: #333;
+    transition: background-color 0.2s ease;
+}
+.game-container .options button:hover {
+    background-color: #e0e0e0; /* Slightly darker hover */
+}
+.game-container .feedback { /* Target specifically within game-container */
+    margin-top: 15px;
+    font-weight: bold;
+    min-height: 1.5em; /* Prevent layout jump when text appears */
+}
+.game-container .feedback.correct {
+    color: green;
+}
+.game-container .feedback.incorrect {
+    color: red;
+}
+.game-container #next-btn, /* Target specifically within game-container */
+.game-container #restart-btn { /* Target specifically within game-container */
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #483D8B; /* Theme purple */
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.game-container #next-btn:hover,
+.game-container #restart-btn:hover {
+    background-color: #6a5acd; /* Lighter purple */
+}
+
+/* Styles for Progress Page (from progress.html) */
+.main-container { /* Used in progress.html */
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.progress-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #fff;
+     border-radius: 8px;
+}
+.progress-section h2 {
+    color: #483D8B;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 5px;
+}
+.progress-section ul {
+    list-style: none;
+    padding-left: 0;
+}
+.progress-section li {
+     background-color: #f0f0f0;
+     padding: 10px 15px;
+     margin-bottom: 8px;
+     border-radius: 4px;
+     font-size: 0.95em;
+     display: flex;
+     justify-content: space-between;
+     flex-wrap: wrap;
+ }
+.progress-section li span { /* For the timestamp */
+     color: #555;
+     font-size: 0.9em;
+     margin-left: 10px; /* Add some space before timestamp */
+ }
+.no-data { /* Class used in JS for no history message */
+     color: #777;
+     font-style: italic;
+ }
+.back-link { /* Used in progress.html */
+     display: inline-block;
+     margin-top: 20px;
+     color: #483D8B;
+     text-decoration: none;
+     font-weight: bold;
+ }
+.back-link:hover {
+      text-decoration: underline;
 }
