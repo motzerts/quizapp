@@ -71,18 +71,9 @@
      <main class="main-container">
         <h1>Your Progress / Tu Progreso</h1>
 
-        <div class="progress-section">
-            <h2>Quiz History / Historial de Cuestionarios</h2>
-            <ul id="quiz-history-list">
-                <li class="no-data">Loading history... / Cargando historial...</li>
-            </ul>
-        </div>
-
-        <div class="progress-section">
-            <h2>Vocabulary History / Historial de Vocabulario</h2>
-            <ul id="vocabulary-history-list">
-                <li class="no-data">Loading history... / Cargando historial...</li>
-            </ul>
+        <div id="all-histories-container">
+            <!-- All quiz/vocab/game histories will be dynamically inserted here by JS -->
+            <div class="no-data">Loading history... / Cargando historial...</div>
         </div>
 
         <a href="{{ url_for('home') }}" class="back-link">&larr; Back to Home / Volver al inicio</a>
