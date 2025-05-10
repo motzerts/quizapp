@@ -89,7 +89,7 @@
         answer: 2
       },
       {
-        q: "5. Rodrigo Díaz de Vivar, ‘El Cid’, participó en luchas entre los reinos de… / The Cid fought between the kingdoms of…",
+        q: "5. Rodrigo Díaz de Vivar, 'El Cid', participó en luchas entre los reinos de… / The Cid fought between the kingdoms of…",
         options: [
           "a) Castilla y León / Castile and León",
           "b) Aragón y Navarra / Aragon and Navarre",
@@ -99,12 +99,12 @@
         answer: 0
       },
       {
-        q: "6. ¿Quién fue llamada “la Temeraria”? / Who was nicknamed “the Reckless”?",
+        q: '6. ¿Quién fue llamada "la Temeraria"? / Who was nicknamed "the Reckless"?',
         options: [
-          "a) Leonor de Córdoba / Eleanor of Córdoba",
-          "b) Urraca I de León / Urraca I of León",
-          "c) Isabel I de Castilla / Isabella I of Castile",
-          "d) Juana la Loca / Joanna the Mad"
+          'a) Leonor de Córdoba / Eleanor of Córdoba',
+          'b) Urraca I de León / Urraca I of León',
+          'c) Isabel I de Castilla / Isabella I of Castile',
+          'd) Juana la Loca / Joanna the Mad'
         ],
         answer: 1
       },
@@ -133,7 +133,7 @@
         options: [
           "a) Almanzor",
           "b) Abderramán III",
-          "c) Yusuf al-Mu’taman",
+          "c) Yusuf al-Mu'taman",
           "d) Al-Hakam II"
         ],
         answer: 1
@@ -181,7 +181,7 @@
         feedbackArea.className = 'feedback correct';
         score++;
       } else {
-        feedbackArea.innerText = `✖ Incorrecto / Incorrect – La respuesta era “${q.options[q.answer]}”`;
+        feedbackArea.innerText = `✖ Incorrecto / Incorrect – La respuesta era "${q.options[q.answer]}"`;
         feedbackArea.className = 'feedback incorrect';
       }
       scoreSpan.innerText = score;
@@ -212,6 +212,23 @@
       feedbackArea.innerText = `Puntuación final: ${score}/${quizQuestions.length} / Final score: ${score}/${quizQuestions.length}`;
       nextBtn.style.display = 'none';
       restartBtn.style.display = 'inline-block';
+
+      // --- Save result to localStorage for progress tracking ---
+      const historyKey = 'medieval_history_history';
+      let history = [];
+      try {
+        const stored = localStorage.getItem(historyKey);
+        if (stored) history = JSON.parse(stored);
+        if (!Array.isArray(history)) history = [];
+      } catch (e) { history = []; }
+      history.push({
+        score: score,
+        total: quizQuestions.length,
+        timestamp: new Date().toISOString()
+      });
+      try {
+        localStorage.setItem(historyKey, JSON.stringify(history));
+      } catch (e) {}
     }
 
     // initialize
