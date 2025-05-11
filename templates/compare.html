@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Classes - Bilingual Tutor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .compare-header { background: #ffe066; padding: 30px 0; text-align: center; }
+        .compare-header h1 { color: #483D8B; font-size: 2.5em; margin-bottom: 18px; }
+        .compare-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; margin-bottom: 30px; }
+        .compare-controls select, .compare-controls input[type="text"] { padding: 10px; border-radius: 6px; border: 1px solid #ccc; font-size: 1em; }
+        .compare-controls button { background: #483D8B; color: #fff; border: none; border-radius: 6px; padding: 10px 22px; font-size: 1em; font-weight: bold; cursor: pointer; }
+        .compare-controls button:hover { background: #6a5acd; }
+        .compare-main { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; margin-top: 30px; }
+        .compare-card { background: #fff; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.08); padding: 28px; min-width: 320px; max-width: 480px; flex: 1; }
+        .compare-card h2 { color: #483D8B; margin-bottom: 18px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+        th, td { padding: 8px 10px; text-align: center; }
+        th { color: #483D8B; font-weight: bold; border-bottom: 2px solid #eee; }
+        tr:not(:last-child) td { border-bottom: 1px solid #f0f0f0; }
+        @media (max-width: 900px) { .compare-main { flex-direction: column; align-items: center; } }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-container">
+            <div class="logo">Compare Classes</div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="#games">Games</a></li>
+                    <li><a href="{{ url_for('progress') }}">Progress</a></li>
+                    <li><a href="{{ url_for('logout') }}">Sign Out</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="compare-header">
+        <h1>Compare Classes</h1>
+        <div class="compare-controls">
+            <select id="class-select" multiple size="1" style="min-width:160px;">
+                {% for c in classes %}
+                <option value="{{ c.id }}" {% if c in selected %}selected{% endif %}>{{ c.name }}</option>
+                {% endfor %}
+            </select>
+            <input type="text" id="date-range" placeholder="YYYY-MM-DD to YYYY-MM-DD" value="{{ start or '' }}{% if start and end %} – {{ end }}{% endif %}">
+            <button id="compare-btn">Compare</button>
+        </div>
+    </div>
+    <main class="compare-main">
+        <div class="compare-card">
+            <h2>Classes Comparison</h2>
+            <table id="metrics-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        {% for c in selected %}<th>{{ c.name }}</th>{% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Average Score</td>{% for c in selected %}<td>{{ metrics[c.id]['avg_score'] }}%</td>{% endfor %}</tr>
+                    <tr><td>Vocab Words Mastered</td>{% for c in selected %}<td>{{ metrics[c.id]['vocab_mastered'] }}</td>{% endfor %}</tr>
+                    <tr><td>Quizzes Taken</td>{% for c in selected %}<td>{{ metrics[c.id]['quizzes_taken'] }}</td>{% endfor %}</tr>
+                    <tr><td>Time Spent (min)</td>{% for c in selected %}<td>{{ metrics[c.id]['time_spent'] }}</td>{% endfor %}</tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="compare-card">
+            <h2>Progress Overview</h2>
+            <canvas id="bar-chart" width="350" height="220"></canvas>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    // --- Helper: Parse and update URL params ---
+    function updateUrlParams(params) {
+        const url = new URL(window.location);
+        Object.keys(params).forEach(key => url.searchParams.set(key, params[key]));
+        window.history.replaceState({}, '', url);
+    }
+    // --- On Compare button click ---
+    document.getElementById('compare-btn').onclick = function() {
+        const select = document.getElementById('class-select');
+        const selected = Array.from(select.selectedOptions).map(o => o.value).join(',');
+        const dateRange = document.getElementById('date-range').value.trim();
+        let start = '', end = '';
+        if (dateRange.includes('to')) {
+            [start, end] = dateRange.split('to').map(s => s.trim());
+        } else if (dateRange.includes('–')) {
+            [start, end] = dateRange.split('–').map(s => s.trim());
+        }
+        updateUrlParams({classes: selected, start, end});
+        window.location.search = `?classes=${selected}&start=${start}&end=${end}`;
+    };
+    // --- Chart.js Bar Chart ---
+    function renderChart(labels, data) {
+        const ctx = document.getElementById('bar-chart').getContext('2d');
+        if (window.barChart) window.barChart.destroy();
+        window.barChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Average Score',
+                    data: data,
+                    backgroundColor: '#483D8B',
+                    borderRadius: 8,
+                }]
+            },
+            options: {
+                scales: { y: { beginAtZero: true, max: 100 } },
+                plugins: { legend: { display: false } }
+            }
+        });
+    }
+    // --- On page load, render chart ---
+    document.addEventListener('DOMContentLoaded', function() {
+        const labels = Array.from(document.querySelectorAll('#metrics-table th')).slice(1).map(th => th.textContent);
+        const data = Array.from(document.querySelectorAll('#metrics-table tr:nth-child(2) td')).map(td => parseInt(td.textContent));
+        renderChart(labels, data);
+    });
+    </script>
+</body>
+</html> 
