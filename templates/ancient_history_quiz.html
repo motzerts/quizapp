@@ -51,12 +51,34 @@
             padding: 10px 20px;
             font-size: 1em;
         }
+        .quiz-nav {
+            position: absolute;
+            right: 40px;
+            top: 30px;
+        }
+        .home-btn {
+            background: #ffe066;
+            color: #483D8B;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            border: none;
+            font-size: 1em;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            transition: background 0.2s;
+        }
+        .home-btn:hover {
+            background: #fffbe6;
+            color: #2d246b;
+        }
     </style>
 </head>
 <body>
     <header class="site-header">
          <div class="container header-container">
              <div class="logo"><a href="{{ url_for('home') }}" style="color: white; text-decoration: none;">Bilingual Tutor</a></div>
+             <nav class="quiz-nav"><a href="{{ url_for('home') }}" class="home-btn">Home</a></nav>
             </div>
     </header>
 
